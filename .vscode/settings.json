@@ -1,11 +1,14 @@
 {
     "cSpell.words": [
+        "addcomp",
         "ftgrouppha",
         "grouptype",
         "infile",
         "ldata",
         "noback",
+        "phoindex",
         "rebin",
+        "renorm",
         "respfile",
         "setplot"
     ]
