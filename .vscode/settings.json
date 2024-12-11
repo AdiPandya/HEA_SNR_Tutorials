@@ -12,5 +12,8 @@
         "renorm",
         "respfile",
         "setplot"
-    ]
+    ],
+    "cSpell.enabledFileTypes": {
+        "log": false
+    }
 }
