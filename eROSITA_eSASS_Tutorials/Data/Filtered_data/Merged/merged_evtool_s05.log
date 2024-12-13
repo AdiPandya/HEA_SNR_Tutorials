@@ -1,0 +1,39 @@
+ evtool: 2.29.2.3 eSASS4DR1 Feb 16 11:30:24 2024
+ evtool/evtool_main: memset==.false., so memory setting for large files is used.
+ evtool/evtool_main: Merging infiles.
+ evtool/evtool_main: Merging headers.
+ evtool/evtool_main: Update filter settings.
+ evtool/evtool_main: Merging extensions.
+ evtool/merge_extensions: Merging 4 files.
+ evtool/merge_extensions: Infiles will be read 1 extension at a time.
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from EVENTS: 169192
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from CORRATT1: 4197
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from CORRATT2: 4040
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from CORRATT3: 4218
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from DEADCOR1: 74005
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from DEADCOR2: 70620
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from DEADCOR3: 74206
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from BADPIX2: 6
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK11: 1182
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK21: 1164
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK31: 1195
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK12: 625
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK22: 605
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK32: 626
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK13: 1195
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK23: 1154
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK33: 1206
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK15: 624
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK25: 602
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK35: 620
+ evtool/evtool_main: Applying filters.
+ evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX1 - can't apply GTIs.
+ evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX3 - can't apply GTIs.
+ evtool/evtool_main: Create outfile.
+ evtool/evtool_main: Writing outfile.
+ evtool/evtool_main: Close outfile
+ evtool/evtool_main:       0.99 s CPU run time.
+ evtool: DONE
+ radec2xy: 1.8.1 eSASS4DR1 Feb 16 11:30:20 2024
+ radec2xy/fttopn: **STOP** could not open the named file
+ radec2xy: FAILED
