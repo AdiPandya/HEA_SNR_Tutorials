@@ -12,7 +12,7 @@
  evtool/evtool_main: Create outfile.
  evtool/evtool_main: Writing outfile.
  evtool/evtool_main: Close outfile
- evtool/evtool_main:       0.55 s CPU run time.
+ evtool/evtool_main:       0.60 s CPU run time.
  evtool: DONE
  evtool: 2.29.2.3 eSASS4DR1 Feb 16 11:30:24 2024
  evtool/evtool_main: memset==.false., so memory setting for large files is used.
@@ -28,7 +28,23 @@
  evtool/evtool_main: Create outfile.
  evtool/evtool_main: Writing outfile.
  evtool/evtool_main: Close outfile
- evtool/evtool_main:       0.51 s CPU run time.
+ evtool/evtool_main:       0.53 s CPU run time.
+ evtool: DONE
+ evtool: 2.29.2.3 eSASS4DR1 Feb 16 11:30:24 2024
+ evtool/evtool_main: memset==.false., so memory setting for large files is used.
+ evtool/evtool_main: Merging headers.
+ evtool/evtool_main: Update filter settings.
+ evtool/evtool_main: Merging extensions.
+ evtool/merge_extensions: Merging 1 files.
+ evtool/merge_extensions: Infiles will be read 1 extension at a time.
+ evtool/evtool_main: Applying filters.
+ evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX1 - can't apply GTIs.
+ evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX3 - can't apply GTIs.
+ evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX5 - can't apply GTIs.
+ evtool/evtool_main: Create outfile.
+ evtool/evtool_main: Writing outfile.
+ evtool/evtool_main: Close outfile
+ evtool/evtool_main:       0.66 s CPU run time.
  evtool: DONE
  evtool: 2.29.2.3 eSASS4DR1 Feb 16 11:30:24 2024
  evtool/evtool_main: memset==.false., so memory setting for large files is used.
@@ -45,20 +61,4 @@
  evtool/evtool_main: Writing outfile.
  evtool/evtool_main: Close outfile
  evtool/evtool_main:       0.48 s CPU run time.
- evtool: DONE
- evtool: 2.29.2.3 eSASS4DR1 Feb 16 11:30:24 2024
- evtool/evtool_main: memset==.false., so memory setting for large files is used.
- evtool/evtool_main: Merging headers.
- evtool/evtool_main: Update filter settings.
- evtool/evtool_main: Merging extensions.
- evtool/merge_extensions: Merging 1 files.
- evtool/merge_extensions: Infiles will be read 1 extension at a time.
- evtool/evtool_main: Applying filters.
- evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX1 - can't apply GTIs.
- evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX3 - can't apply GTIs.
- evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX5 - can't apply GTIs.
- evtool/evtool_main: Create outfile.
- evtool/evtool_main: Writing outfile.
- evtool/evtool_main: Close outfile
- evtool/evtool_main:       0.42 s CPU run time.
  evtool: DONE

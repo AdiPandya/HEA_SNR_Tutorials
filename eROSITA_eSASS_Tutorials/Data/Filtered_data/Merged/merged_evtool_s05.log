@@ -10,30 +10,58 @@
  evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from CORRATT1: 4197
  evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from CORRATT2: 4040
  evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from CORRATT3: 4218
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from CORRATT4: 4224
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from CORRATT5: 4234
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from CORRATT6: 4257
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from CORRATT7: 4227
  evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from DEADCOR1: 74005
  evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from DEADCOR2: 70620
  evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from DEADCOR3: 74206
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from DEADCOR4: 74392
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from DEADCOR5: 73429
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from DEADCOR6: 74910
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from DEADCOR7: 73598
  evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from BADPIX2: 6
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from BADPIX4: 51
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from BADPIX6: 9
+ evtool/del_dup_seq_tBinTable: **WARNING1** Number of duplicate rows removed from BADPIX7: 3
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK11: 1182
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK21: 1164
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK31: 1195
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK41: 1197
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK51: 1206
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK61: 1207
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK71: 1201
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK12: 625
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK22: 605
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK32: 626
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK42: 626
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK52: 627
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK62: 636
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK72: 624
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK13: 1195
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK23: 1154
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK33: 1206
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK43: 1194
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK53: 1208
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK63: 1215
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK73: 1202
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK15: 624
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK25: 602
  evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK35: 620
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK45: 630
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK55: 627
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK65: 625
+ evtool/del_dup_char_tBinTable: **WARNING1** Number of duplicate rows removed from HK75: 626
  evtool/evtool_main: Applying filters.
  evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX1 - can't apply GTIs.
  evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX3 - can't apply GTIs.
+ evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX5 - can't apply GTIs.
  evtool/evtool_main: Create outfile.
  evtool/evtool_main: Writing outfile.
  evtool/evtool_main: Close outfile
- evtool/evtool_main:       0.99 s CPU run time.
+ evtool/evtool_main:       1.37 s CPU run time.
  evtool: DONE
  radec2xy: 1.8.1 eSASS4DR1 Feb 16 11:30:20 2024
- radec2xy/fttopn: **STOP** could not open the named file
- radec2xy: FAILED
+ radec2xy/radec2xy:       355117  table rows processed
+ radec2xy: DONE
