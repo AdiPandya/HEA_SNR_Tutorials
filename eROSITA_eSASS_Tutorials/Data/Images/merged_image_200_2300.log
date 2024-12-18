@@ -2,22 +2,19 @@
  evtool/evtool_main: memset==.false., so memory setting for large files is used.
  evtool/evtool_main: Merging headers.
  evtool/evtool_main: Update filter settings.
- evtool/update_filter_telid_settings: **WARNING1** Selected TELID 4 is not present in the infile/s
- evtool/update_filter_telid_settings: **WARNING1** Selected TELID 5 is not present in the infile/s
- evtool/update_filter_telid_settings: **WARNING1** Selected TELID 6 is not present in the infile/s
- evtool/update_filter_telid_settings: **WARNING1** Selected TELID 7 is not present in the infile/s
  evtool/evtool_main: Merging extensions.
  evtool/merge_extensions: Merging 1 files.
  evtool/merge_extensions: Infiles will be read 1 extension at a time.
  evtool/evtool_main: Applying filters.
  evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX1 - can't apply GTIs.
  evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX3 - can't apply GTIs.
+ evtool/apply_gti_tExtension: **WARNING1** Zero rows in BADPIX5 - can't apply GTIs.
  evtool/apply_filter_tEventFile: Creating image.
- evtool/create_from_events_tImage2D_i4: **WARNING1** 38938 out of 108643 possible events fall outside the image bounds.
+ evtool/create_from_events_tImage2D_i4: **WARNING1** 87106 out of 238712 possible events fall outside the image bounds.
  evtool/evtool_main: Create outfile.
  evtool/evtool_main: Writing outfile.
  evtool/write_tEventFile: Write of events was not requested; no events written.
  evtool/write_tEventFile: Since events were not requested, HK and other extensions are also not written.
  evtool/evtool_main: Close outfile
- evtool/evtool_main:       0.59 s CPU run time.
+ evtool/evtool_main:       0.90 s CPU run time.
  evtool: DONE
