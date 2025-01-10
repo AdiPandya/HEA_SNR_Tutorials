@@ -31,6 +31,38 @@ The notebook covers the following steps:
 
 These steps provide a comprehensive guide to preparing eROSITA data for image creation and spectral analysis.
 
+### Using the [Setup Script](Setup.py)
+
+This script processes eROSITA data by performing several steps mentioned above.
+
+#### Usage
+
+To run the script, use the following command:
+```bash
+python Setup.py <input_dir> <output_dir> <timebin> <center_ra> <center_dec> [--logs] [--ff_plots] [--ff_proof] [--separate_tm]
+```
+
+- `<input_dir>`: Input directory containing raw data.
+- `<output_dir>`: Output directory for filtered data.
+- `<timebin>`: Time bin size for lightcurve extraction.
+- `<center_ra>`: Center RA in deg.
+- `<center_dec>`: Center Dec in deg.
+
+##### Optional Flags
+- `--logs`: Create log files. Default is `True`.
+- `--ff_plots`: Create flare filtering plots. Default is `True`.
+- `--ff_proof`: Proof check flare filtering by creating lightcurves of the filtered event lists. Default is `False`.
+- `--separate_tm`: Separate merged event list by Telescope Modules (TMs) 1 2 3 4 5 6 7 8 9. Default is `False`.
+
+#### Example Usage
+
+```bash
+python Setup.py Data/Raw_data Data/Filtered_data 20 83.63 22.39 --logs --ff_plots --separate_tm
+```
+
+This command will process the data in the specified input directory, save the results in the output directory, use a time bin size of 20, and set the center coordinates to RA 83.63 and DEC -5.39. It will also create log files and flare filtering plots.
+
+
 ## 2. [Image Creation](Imaging)
 ### Using the Imaging Script and Notebook
 
@@ -76,14 +108,14 @@ The `Imaging/Imaging.py` script and the `Imaging/02_Imaging_tutorial.ipynb` note
 
 #### Using the Imaging Notebook
 
-The `Imaging/02_Imaging_tutorial.ipynb` notebook provides a tutorial of the python script `Imaging/Imaging.py` to process the eROSITA data. It includes the following steps:
+The [02_Imaging_tutorial.ipynb](Imaging/02_Imaging_tutorial.ipynb) notebook provides a tutorial of the python script [Imaging.py](Imaging/Imaging.py) to process the eROSITA data. It includes the following steps:
 
 - **Creating Image and Exposure Map**: Use functions to create images and exposure maps.
 - **Exposure Correction**: Generate exposure-corrected images.
 - **Viewing the Image**: Visualize the images using interactive widgets.
 - **RGB Image**: Create and visualize RGB images using predefined or specified energy bands.
 
-For more detailed information, refer to the comments and documentation within the `Imaging/Imaging.py` script and the `Imaging/02_Imaging_tutorial.ipynb` notebook.
+For more detailed information, refer to the comments and documentation within the [Imaging.py](Imaging/Imaging.py) script and the [02_Imaging_tutorial.ipynb](Imaging/02_Imaging_tutorial.ipynb) notebook.
 
 
 
