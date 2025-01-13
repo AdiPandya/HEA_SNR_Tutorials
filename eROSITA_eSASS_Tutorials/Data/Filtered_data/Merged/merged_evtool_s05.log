@@ -28,5 +28,5 @@
  evtool/write_tEventFile: Writing events-extension extras.
  evtool: DONE
  radec2xy: eSASS4EDR Jan 08 14:41:35 2025
- radec2xy/radec2xy:       362302  table rows processed
+ radec2xy/radec2xy:       364341  table rows processed
  radec2xy: DONE

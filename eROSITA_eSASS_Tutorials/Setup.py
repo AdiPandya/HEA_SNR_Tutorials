@@ -4,6 +4,7 @@ import subprocess
 import numpy as np
 from astropy.io import fits
 from scipy.optimize import curve_fit
+from concurrent.futures import ProcessPoolExecutor
 import matplotlib.pyplot as plt
 import os
 from tqdm import tqdm
@@ -27,7 +28,6 @@ parser.add_argument('output_dir', type=str, help='Output directory for filtered 
 parser.add_argument('timebin', type=str, default='20', help='Time bin size for lightcurve')
 parser.add_argument('center_ra', type=str, help='Center RA')
 parser.add_argument('center_dec', type=str, help='Center DEC')
-parser.add_argument('--logs', action='store_true', default=True, help='Flag to create log files')
 parser.add_argument('--ff_plots', action='store_true', default=True, help='Flag to create flare filtering plots')
 parser.add_argument('--ff_proof', action='store_true', default=False, help='Flag to proof check flare filtering')
 parser.add_argument('--separate_tm', action='store_true', default=False, help='Flag to separate merged event list by TMs')
@@ -39,7 +39,6 @@ output_dir = args.output_dir
 timebin = args.timebin
 center_ra = args.center_ra
 center_dec = args.center_dec
-create_logs = args.logs
 ff_plots = args.ff_plots
 proof_check = args.ff_proof
 separate_tm = args.separate_tm
@@ -82,7 +81,7 @@ print(f'  Output directory: {output_dir}')
 print(f'  Time bin size: {timebin}')
 print(f'  Center RA: {center_ra}')
 print(f'  Center DEC: {center_dec}')
-print(f'  Create logs: {create_logs}')
+# print(f'  Create logs: {create_logs}')
 print(f'  Create flare filtering plots: {ff_plots}')
 print(f'  Proof check flare filtering: {proof_check}')
 print(f'  Separate merged event list by TMs: {separate_tm}')
@@ -130,36 +129,46 @@ def run_flaregti(input_name, output_lightcurve, pimin='5000', source_size='150',
 ############ Making clean Event list for all tiles ############
 print("\n========================================\n")
 print('1) Creating clean event list for all tiles:')
-if create_logs:
-    with open(f'{output_dir}/evtool_s01.log', 'w+') as log_file:    
-        for tile in tqdm(range(len(elist))):   
-            run_evtool(elist[tile], clean_list[tile], log_file=log_file)
 
-        log_file.seek(0)
-        log_content = log_file.readlines()
-        evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
-        print(f'evtool finished successfully for {evtool_count} out of {len(elist)} files ({evtool_count/len(elist)*100}%)')
-    print(f'Log file saved as {output_dir}/evtool_s01.log')
-else:
-    for tile in tqdm(range(len(elist))):   
-        run_evtool(elist[tile], clean_list[tile])
+log_file_s01 = f'{output_dir}/evtool_s01.log'
+with open(log_file_s01, 'w+') as log_file:
+    pass
+
+def par_evtool_s01(tile):
+    with open(log_file_s01, 'a') as log_file:
+        run_evtool(elist[tile], clean_list[tile], log_file=log_file)
+
+with ProcessPoolExecutor() as executor:
+    list(tqdm(executor.map(par_evtool_s01, range(len(elist))), total=len(elist)))
+
+with open(log_file_s01, 'r') as log_file:
+    log_content = log_file.readlines()
+    evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
+    print(f'evtool finished successfully for {evtool_count} out of {len(elist)} files ({evtool_count/len(elist)*100}%)')
+
+print(f'Log file saved as {output_dir}/evtool_s01.log')
 
 ############ Extract Lightcurves ############
 print("\n========================================\n")
 print('2) Extracting lightcurves for all tiles:')
-if create_logs:
-    with open(f'{output_dir}/Lightcurves/flaregti_s02.log', 'w+') as log_file:
-        for tile in tqdm(range(len(elist))):   
-            run_flaregti(clean_list[tile], lightcurve0_list[tile], log_file=log_file)
-        
-        log_file.seek(0)
-        log_content = log_file.readlines()
-        flaregti_count = sum(1 for line in log_content if 'flaregti: DONE' in line)
-        print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
-    print(f'Log file saved as {output_dir}/Lightcurves/flaregti_s02.log')
-else:
-    for tile in tqdm(range(len(elist))):   
-        run_flaregti(clean_list[tile], lightcurve0_list[tile])
+
+log_file_s02 = f'{output_dir}/Lightcurves/flaregti_s02.log'
+with open(log_file_s02, 'w+') as log_file:
+    pass
+
+def par_flaregti_s02(tile):
+    with open(log_file_s02, 'a') as log_file:
+        run_flaregti(clean_list[tile], lightcurve0_list[tile], log_file=log_file)
+
+with ProcessPoolExecutor() as executor:
+    list(tqdm(executor.map(par_flaregti_s02, range(len(elist))), total=len(elist)))
+
+with open(log_file_s02, 'r') as log_file:
+    log_content = log_file.readlines()
+    flaregti_count = sum(1 for line in log_content if 'flaregti: DONE' in line)
+    print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
+
+print(f'Log file saved as {output_dir}/Lightcurves/flaregti_s02.log')
 
 ############ Flare Filtering functions ############
 
@@ -201,7 +210,6 @@ def threshold_lightcurve(input_data, ff_plots=ff_plots, output_dir=f'{output_dir
         main_color = 'tab:red'
         clipping_region_color = 'k'
 
-        # Plot 1
         ax[0].plot((time - time[0]) / 1e3, rate, lw=1.5, color=main_color)
         ax[0].set_ylabel('Rate \n $[\\mathrm{cts\\ s^{-1}\\ deg^{-2}}]$')
         ax[0].set_xlabel('Time [ks]')
@@ -209,7 +217,6 @@ def threshold_lightcurve(input_data, ff_plots=ff_plots, output_dir=f'{output_dir
         ax[0].axhspan(lower_limit, upper_limit, color=clipping_region_color, alpha=0.3, label='Clipping Region')
         ax[0].legend()
 
-        # Plot 2
         ax[1].plot(np.arange(0, len(rate)) * 10 / 1e3, rate, lw=1.5, color=main_color)
         ax[1].set_ylabel('Rate \n $[\\mathrm{cts\\ s^{-1}\\ deg^{-2}}]$')
         ax[1].set_xlabel('Time [ks]')
@@ -217,7 +224,6 @@ def threshold_lightcurve(input_data, ff_plots=ff_plots, output_dir=f'{output_dir
         ax[1].axhspan(lower_limit, upper_limit, color=clipping_region_color, alpha=0.3, label='Clipping Region')
         ax[1].legend()
 
-        # Plot 3
         ax[2].hist(rate, bins=rate_borders, alpha=0.5, label='Data', color=main_color)
         x_fit_interval = np.linspace(rate_borders[0], rate_borders[-1], 100)
         ax[2].axvspan(lower_limit, upper_limit, color='steelblue', alpha=0.25)
@@ -237,41 +243,55 @@ def threshold_lightcurve(input_data, ff_plots=ff_plots, output_dir=f'{output_dir
 
 print('\n2.1) Calculating Thresholds for flare filtering:')
 tile_thresholds = np.zeros(len(lightcurve0_list))
-for tile in tqdm(range(len(lightcurve0_list))):   
-    tile_thresholds[tile] = threshold_lightcurve(lightcurve0_list[tile])
+
+with ProcessPoolExecutor() as executor:
+    results = list(tqdm(executor.map(threshold_lightcurve, lightcurve0_list), total=len(lightcurve0_list)))
+
+tile_thresholds[:] = results
+
 print(f'Flare filtering plot saved in {output_dir}/Lightcurves/')
 
 print("\n========================================\n")
 print('3) Running flaregti for all tiles with the calculated thresholds:')
-if create_logs:
-    with open(f'{output_dir}/Lightcurves/flaregti_s03.log', 'w+') as log_file:
-        for tile in tqdm(range(len(elist))):   
-            run_flaregti(clean_list[tile], lightcurve_list[tile], threshold=tile_thresholds[tile], log_file=log_file)
-        
-        log_file.seek(0)
-        log_content = log_file.readlines()
-        flaregti_count = sum(1 for line in log_content if 'flaregti: DONE' in line)
-        print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
-    print(f'Log file saved as {output_dir}/Lightcurves/flaregti_s03.log')
-else:
-    for tile in tqdm(range(len(elist))):   
-        run_flaregti(clean_list[tile], lightcurve_list[tile], threshold=tile_thresholds[tile])
+
+log_file_s03 = f'{output_dir}/Lightcurves/flaregti_s03.log'
+with open(log_file_s03, 'w+') as log_file:
+    pass
+
+def par_flaregti_s03(tile):
+    with open(log_file_s03, 'a') as log_file:
+        run_flaregti(clean_list[tile], lightcurve_list[tile], threshold = tile_thresholds[tile],log_file=log_file)
+
+with ProcessPoolExecutor() as executor:
+    list(tqdm(executor.map(par_flaregti_s03, range(len(elist))), total=len(elist)))
+
+with open(log_file_s03, 'r') as log_file:
+    log_content = log_file.readlines()
+    flaregti_count = sum(1 for line in log_content if 'flaregti: DONE' in line)
+    print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
+
+print(f'Log file saved as {output_dir}/Lightcurves/flaregti_s03.log')
 
 print("\n========================================\n")
 print('4) Running evtool for all tiles with the flare filtered lightcurves:')
-if create_logs:
-    with open(f'{output_dir}/evtool_s04.log', 'w+') as log_file:    
-        for tile in tqdm(range(len(elist))):   
-            run_evtool(clean_list[tile], filtered_list[tile], gti_type="FLAREGTI", log_file=log_file)
 
-        log_file.seek(0)
-        log_content = log_file.readlines()
-        evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
-        print(f'evtool finished successfully for {evtool_count} out of {len(clean_list)} files ({evtool_count/len(clean_list)*100}%)')
-    print(f'Log file saved as {output_dir}/evtool_s04.log')
-else:    
-    for tile in tqdm(range(len(elist))):   
-        run_evtool(clean_list[tile], filtered_list[tile], gti_type="FLAREGTI")
+log_file_s04 = f'{output_dir}/evtool_s04.log'
+with open(log_file_s04, 'w+') as log_file:
+    pass
+
+def par_evtool_s04(tile):
+    with open(log_file_s04, 'a') as log_file:
+        run_evtool(clean_list[tile], filtered_list[tile], gti_type="FLAREGTI", log_file=log_file)
+
+with ProcessPoolExecutor() as executor:
+    list(tqdm(executor.map(par_evtool_s04, range(len(elist))), total=len(elist)))
+
+with open(log_file_s04, 'r') as log_file:
+    log_content = log_file.readlines()
+    evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
+    print(f'evtool finished successfully for {evtool_count} out of {len(clean_list)} files ({evtool_count/len(clean_list)*100}%)')
+
+print(f'Log file saved as {output_dir}/evtool_s04.log')
 
 if proof_check:
     print('\n4.1) Proof checking flare filtering:')
@@ -283,68 +303,61 @@ if proof_check:
     for i in range(len(filtered_list)):
         pc_lightcurve_list[i] = f'{output_dir}/Lightcurves/Proof_check/' + filtered_list[i].split('/')[-1].replace('s04_FlareFilteredEvents.fits', f's041_pcLC_tb{timebin}.fits')
 
-    if create_logs:
-        with open(f'{output_dir}/Lightcurves/Proof_check/flaregti_s041.log', 'w+') as log_file:
-            for tile in tqdm(range(len(elist))):   
-                run_flaregti(filtered_list[tile], pc_lightcurve_list[tile], log_file=log_file)
-            
-            log_file.seek(0)
-            log_content = log_file.readlines()
-            flaregti_count = sum(1 for line in log_content if 'flaregti: DONE' in line)
-            print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
-        print(f'Log file saved as {output_dir}/Lightcurves/Proof_check/flaregti_s041.log')
-    else:
-        for tile in tqdm(range(len(elist))):   
-            run_flaregti(filtered_list[tile], pc_lightcurve_list[tile])
+    log_file_s041 = f'{output_dir}/Lightcurves/Proof_check/flaregti_s041.log'
+    with open(log_file_s041, 'w+') as log_file:
+        pass
+
+    def par_flaregti_s041(tile):
+        with open(log_file_s041, 'a') as log_file:
+            run_flaregti(filtered_list[tile], pc_lightcurve_list[tile], log_file=log_file)
+
+    with ProcessPoolExecutor() as executor:
+        list(tqdm(executor.map(par_flaregti_s041, range(len(elist))), total=len(elist)))
+
+    with open(log_file_s041, 'r') as log_file:
+        log_content = log_file.readlines()
+        flaregti_count = sum(1 for line in log_content if 'flaregti: DONE' in line)
+        print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
 
     for tile in tqdm(range(len(pc_lightcurve_list))):   
         threshold_lightcurve(pc_lightcurve_list[tile], image=True, output_dir=f'{output_dir}/Lightcurves/Proof_check/')
     print(f'Plots for proof checking saved in {output_dir}/Lightcurves/Proof_check/')
 
+############ Merging tiles and separating into TMs ############
 print("\n========================================\n")
 print('5) Merging tiles event list:')
-if create_logs:
-    with open(f'{output_dir}/Merged/merged_evtool_s05.log', 'w+') as log_file:    
-        run_evtool(f'@{output_dir}/filtered.list', f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', gti_type="FLAREGTI", log_file=log_file)
-        run_radec2xy(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', center_ra, center_dec, log_file=log_file)
 
-        log_file.seek(0)
-        log_content = log_file.readlines()
-        evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
-        radec2xy_count = sum(1 for line in log_content if 'radec2xy: DONE' in line)
-        if evtool_count == 1 and radec2xy_count == 1:
-            print('Merged tiles eventlist successfully')
-    print(f'Log file saved as {output_dir}/Merged/merged_evtool_s05.log')
-else:
-    run_evtool(f'@{output_dir}/filtered.list', f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', gti_type="FLAREGTI")
-    run_radec2xy(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', center_ra, center_dec)
+with open(f'{output_dir}/Merged/merged_evtool_s05.log', 'w+') as log_file:    
+    run_evtool(f'@{output_dir}/filtered.list', f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', gti_type="FLAREGTI", log_file=log_file)
+    run_radec2xy(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', center_ra, center_dec, log_file=log_file)
+
+    log_file.seek(0)
+    log_content = log_file.readlines()
+    evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
+    radec2xy_count = sum(1 for line in log_content if 'radec2xy: DONE' in line)
+    if evtool_count == 1 and radec2xy_count == 1:
+        print('Merged tiles eventlist successfully')
+print(f'Log file saved as {output_dir}/Merged/merged_evtool_s05.log')
+
 
 if separate_tm:
     print('\n6) Separating merged event list into TM 1 2 3 4 5 6 7 8 9:')
     TM_list = np.array([1, 2, 3, 4, 5, 6, 7])
 
-    if create_logs:
-        with open(f'{output_dir}/Merged/separate_TM_evtool_s05.log', 'w+') as log_file:
-            for i in tqdm(range(len(TM_list))):
-                run_evtool(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', f'{output_dir}/Merged/Merged_{TM_list[i]}20_s05_TM{TM_list[i]}_Events.fits', telid=f'{TM_list[i]}', log_file=log_file)
-
-            run_evtool(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', f'{output_dir}/Merged/Merged_820_s05_TM8_Events.fits', telid='1 2 3 4 6', log_file=log_file)
-
-            run_evtool(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', f'{output_dir}/Merged/Merged_920_s05_TM9_Events.fits', telid='5 7', log_file=log_file)
-
-            log_file.seek(0)
-            log_content = log_file.readlines()
-            evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
-            print(f'evtool successfully separated file into {evtool_count} files for {len(TM_list) + 2} TMs ({evtool_count / (len(TM_list) + 2) * 100}%)')
-
-        print(f'Log file saved as {output_dir}/Merged/separate_TM_evtool_s05.log')
-    else:
+    with open(f'{output_dir}/Merged/separate_TM_evtool_s05.log', 'w+') as log_file:
         for i in tqdm(range(len(TM_list))):
-            run_evtool(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', f'{output_dir}/Merged/Merged_{TM_list[i]}20_s05_TM{TM_list[i]}_Events.fits', telid=f'{TM_list[i]}')
+            run_evtool(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', f'{output_dir}/Merged/Merged_{TM_list[i]}20_s05_TM{TM_list[i]}_Events.fits', telid=f'{TM_list[i]}', log_file=log_file)
 
-        run_evtool(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', f'{output_dir}/Merged/Merged_820_s05_TM8_Events.fits', telid='1 2 3 4 6')
+        run_evtool(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', f'{output_dir}/Merged/Merged_820_s05_TM8_Events.fits', telid='1 2 3 4 6', log_file=log_file)
 
-        run_evtool(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', f'{output_dir}/Merged/Merged_920_s05_TM9_Events.fits', telid='5 7')
+        run_evtool(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', f'{output_dir}/Merged/Merged_920_s05_TM9_Events.fits', telid='5 7', log_file=log_file)
+
+        log_file.seek(0)
+        log_content = log_file.readlines()
+        evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
+        print(f'evtool successfully separated file into {evtool_count} files for {len(TM_list) + 2} TMs ({evtool_count / (len(TM_list) + 2) * 100}%)')
+
+    print(f'Log file saved as {output_dir}/Merged/separate_TM_evtool_s05.log')
 
 print("\n========================================\n")
 print('** All tasks completed successfully **')
