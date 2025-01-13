@@ -33,13 +33,13 @@ These steps provide a comprehensive guide to preparing eROSITA data for image cr
 
 ### Using the [Setup Script](Setup.py)
 
-This script processes eROSITA data by performing several steps mentioned above.
+This script processes eROSITA data by performing several steps mentioned above. It uses parallel processing to speed up the data reduction process. Each file is processed in parallel to filter out flares and then merged into a single event list. 
 
 #### Usage
 
 To run the script, use the following command:
 ```bash
-python Setup.py <input_dir> <output_dir> <timebin> <center_ra> <center_dec> [--logs] [--ff_plots] [--ff_proof] [--separate_tm]
+python Setup.py <input_dir> <output_dir> <timebin> <center_ra> <center_dec> [--ff_plots] [--ff_proof] [--separate_tm]
 ```
 
 - `<input_dir>`: Input directory containing raw data.
@@ -49,7 +49,6 @@ python Setup.py <input_dir> <output_dir> <timebin> <center_ra> <center_dec> [--l
 - `<center_dec>`: Center Dec in deg.
 
 ##### Optional Flags
-- `--logs`: Create log files. Default is `True`.
 - `--ff_plots`: Create flare filtering plots. Default is `True`.
 - `--ff_proof`: Proof check flare filtering by creating lightcurves of the filtered event lists. Default is `False`.
 - `--separate_tm`: Separate merged event list by Telescope Modules (TMs) 1 2 3 4 5 6 7 8 9. Default is `False`.
@@ -57,7 +56,7 @@ python Setup.py <input_dir> <output_dir> <timebin> <center_ra> <center_dec> [--l
 #### Example Usage
 
 ```bash
-python Setup.py Data/Raw_data Data/Filtered_data 20 83.63 22.39 --logs --ff_plots --separate_tm
+python Setup.py Data/Raw_data Data/Filtered_data 20 83.63 22.39 --ff_plots --separate_tm
 ```
 
 This command will process the data in the specified input directory, save the results in the output directory, use a time bin size of 20, and set the center coordinates to RA 83.63 and DEC -5.39. It will also create log files and flare filtering plots.
