@@ -1,4 +1,96 @@
- flaregti: 1.26.2 eSASS4DR1 Feb 16 11:30:44 2024
+ flaregti: eSASS4EDR Jan 08 14:41:35 2025
+ flaregti/flaregti_main: Sky pixel range for flare screening:
+ flaregti/flaregti_main:  XMIN=-108000 XMAX= 108000 YMIN=-108000 YMAX= 108000
+ flaregti/flaregti_main: Image size for point source removal:
+ flaregti/flaregti_main:  XSIZE=  180 YSIZE=  180
+ flaregti/flaregti_main: Source detection iteration  1
+ flaregti/flaregti_main:  evtfile_mk_image done
+ flaregti/flaregti_main:  mk_mask done
+ flaregti/flaregti_main:  evtfile_prep_attitude done
+ flaregti/flaregti_main:  evtfile_mk_lightcrv done
+ flaregti/flaregti_main:  mk_area done
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_main:  rate calculation done
+ flaregti/flaregti_main:  mk_thresh done
+ flaregti/flaregti_main:  mk_common_flaregti done
+ flaregti/flaregti_main:  merge_flaregti done
+ flaregti/flaregti_main: Source detection iteration  2
+ flaregti/flaregti_main:  evtfile_mk_image done
+ flaregti/flaregti_main:  mk_mask done
+ flaregti/flaregti_main:  evtfile_prep_attitude done
+ flaregti/flaregti_main:  evtfile_mk_lightcrv done
+ flaregti/flaregti_main:  mk_area done
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_main:  rate calculation done
+ flaregti/flaregti_main:  mk_thresh done
+ flaregti/flaregti_main:  mk_common_flaregti done
+ flaregti/flaregti_main:  merge_flaregti done
+ flaregti/flaregti_main: Source detection iteration  3
+ flaregti/flaregti_main:  evtfile_mk_image done
+ flaregti/flaregti_main:  mk_mask done
+ flaregti/flaregti_main:  evtfile_prep_attitude done
+ flaregti/flaregti_main:  evtfile_mk_lightcrv done
+ flaregti/flaregti_main:  mk_area done
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_mod: Warning: time bin with no counts found in input GTI
+ flaregti/flaregti_main:  rate calculation done
+ flaregti/flaregti_main:  mk_thresh done
+ flaregti/flaregti_main:  mk_common_flaregti done
+ flaregti/flaregti_main:  merge_flaregti done
+ flaregti/flaregti_main: write_lightcurve done
+ flaregti/flaregti_main: update_flaregti done
+ flaregti: DONE
+ flaregti: eSASS4EDR Jan 08 14:41:35 2025
  flaregti/flaregti_main: Sky pixel range for flare screening:
  flaregti/flaregti_main:  XMIN=-108000 XMAX= 108000 YMIN=-108000 YMAX= 108000
  flaregti/flaregti_main: Image size for point source removal:
@@ -36,7 +128,7 @@
  flaregti/flaregti_main: write_lightcurve done
  flaregti/flaregti_main: update_flaregti done
  flaregti: DONE
- flaregti: 1.26.2 eSASS4DR1 Feb 16 11:30:44 2024
+ flaregti: eSASS4EDR Jan 08 14:41:35 2025
  flaregti/flaregti_main: Sky pixel range for flare screening:
  flaregti/flaregti_main:  XMIN=-108000 XMAX= 108000 YMIN=-108000 YMAX= 108000
  flaregti/flaregti_main: Image size for point source removal:
@@ -74,45 +166,7 @@
  flaregti/flaregti_main: write_lightcurve done
  flaregti/flaregti_main: update_flaregti done
  flaregti: DONE
- flaregti: 1.26.2 eSASS4DR1 Feb 16 11:30:44 2024
- flaregti/flaregti_main: Sky pixel range for flare screening:
- flaregti/flaregti_main:  XMIN=-108000 XMAX= 108000 YMIN=-108000 YMAX= 108000
- flaregti/flaregti_main: Image size for point source removal:
- flaregti/flaregti_main:  XSIZE=  180 YSIZE=  180
- flaregti/flaregti_main: Source detection iteration  1
- flaregti/flaregti_main:  evtfile_mk_image done
- flaregti/flaregti_main:  mk_mask done
- flaregti/flaregti_main:  evtfile_prep_attitude done
- flaregti/flaregti_main:  evtfile_mk_lightcrv done
- flaregti/flaregti_main:  mk_area done
- flaregti/flaregti_main:  rate calculation done
- flaregti/flaregti_main:  mk_thresh done
- flaregti/flaregti_main:  mk_common_flaregti done
- flaregti/flaregti_main:  merge_flaregti done
- flaregti/flaregti_main: Source detection iteration  2
- flaregti/flaregti_main:  evtfile_mk_image done
- flaregti/flaregti_main:  mk_mask done
- flaregti/flaregti_main:  evtfile_prep_attitude done
- flaregti/flaregti_main:  evtfile_mk_lightcrv done
- flaregti/flaregti_main:  mk_area done
- flaregti/flaregti_main:  rate calculation done
- flaregti/flaregti_main:  mk_thresh done
- flaregti/flaregti_main:  mk_common_flaregti done
- flaregti/flaregti_main:  merge_flaregti done
- flaregti/flaregti_main: Source detection iteration  3
- flaregti/flaregti_main:  evtfile_mk_image done
- flaregti/flaregti_main:  mk_mask done
- flaregti/flaregti_main:  evtfile_prep_attitude done
- flaregti/flaregti_main:  evtfile_mk_lightcrv done
- flaregti/flaregti_main:  mk_area done
- flaregti/flaregti_main:  rate calculation done
- flaregti/flaregti_main:  mk_thresh done
- flaregti/flaregti_main:  mk_common_flaregti done
- flaregti/flaregti_main:  merge_flaregti done
- flaregti/flaregti_main: write_lightcurve done
- flaregti/flaregti_main: update_flaregti done
- flaregti: DONE
- flaregti: 1.26.2 eSASS4DR1 Feb 16 11:30:44 2024
+ flaregti: eSASS4EDR Jan 08 14:41:35 2025
  flaregti/flaregti_main: Sky pixel range for flare screening:
  flaregti/flaregti_main:  XMIN=-108000 XMAX= 108000 YMIN=-108000 YMAX= 108000
  flaregti/flaregti_main: Image size for point source removal:
