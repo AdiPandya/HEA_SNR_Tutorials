@@ -364,7 +364,7 @@ end_time = time.time()
 time_taken = end_time - start_time
 
 print("\n========================================\n")
-if time_taken > 1000:
+if time_taken > 600:
     print(f'** All tasks completed successfully in {(time_taken/60):.2f} minutes **')
 if time_taken > 3600:
     print(f'** All tasks completed successfully in {(time_taken/3600):.2f} hours **')
