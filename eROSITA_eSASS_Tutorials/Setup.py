@@ -10,7 +10,8 @@ import os
 from tqdm import tqdm
 import warnings
 import argparse
-
+import time
+start_time = time.time()
 warnings.filterwarnings("ignore")
 
 plt.style.use("default")
@@ -359,6 +360,14 @@ if separate_tm:
 
     print(f'Log file saved as {output_dir}/Merged/separate_TM_evtool_s05.log')
 
+end_time = time.time()
+time_taken = end_time - start_time
+
 print("\n========================================\n")
-print('** All tasks completed successfully **')
+if time_taken > 1000:
+    print(f'** All tasks completed successfully in {(time_taken/60):.2f} minutes **')
+if time_taken > 3600:
+    print(f'** All tasks completed successfully in {(time_taken/3600):.2f} hours **')
+else:
+    print(f'** All tasks completed successfully in {time_taken:.2f} seconds **')
 print("\n========================================\n")
