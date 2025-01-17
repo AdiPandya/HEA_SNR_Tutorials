@@ -35,13 +35,13 @@
  srctool/ero_cifsl: Accessing cal file tm4_avignet2_010101v01.fits
  srctool/ero_cifsl: Accessing cal file tm6_avignet2_010101v01.fits
  srctool/srctool: Preparing for the handling of extended sources
- srctool/srctool: #PROCESSING_TIME_INFO:Setup completed: Total setup time was          0.83000s
+ srctool/srctool: #PROCESSING_TIME_INFO:Setup completed: Total setup time was          0.88300s
  srctool/srctool: ------------------------------------------------------------------------------
  srctool/srctool: 
  srctool/srctool: ------------------------------------------------------------------------------
  srctool/srctool: Source products will be extracted for 1 source
  srctool/srctool: Working on source 1/1
  srctool/srctool: ------------------------------------------------------------------------------
- srctool/srctool: #PROCESSING_TIME_INFO:Task completed: Total processing time was     60.98900s
+ srctool/srctool: #PROCESSING_TIME_INFO:Task completed: Total processing time was    173.59599s
  srctool/srctool: ------------------------------------------------------------------------------
  srctool: DONE

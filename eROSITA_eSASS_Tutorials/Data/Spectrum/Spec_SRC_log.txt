@@ -1,0 +1,47 @@
+ srctool/srctool: Initialising data structures
+ srctool: 1.87 eSASSusers_240410 Jul 10 19:22:17 2024
+ srctool/srctool: Interpreting input parameters
+ srctool/srctool_param_interpret_src_par: **WARNING1** Any existing output files will be clobbered!
+ srctool/srctool: Reading in eventfile(s)
+ srctool/srctool: Reading calibration files from the CALDB
+ srctool/ero_cifsl: Accessing cal file tm1_detmap_100602v03.fits
+ srctool/ero_cifsl: Accessing cal file tm2_detmap_100602v03.fits
+ srctool/ero_cifsl: Accessing cal file tm3_detmap_100602v03.fits
+ srctool/ero_cifsl: Accessing cal file tm4_detmap_100602v03.fits
+ srctool/ero_cifsl: Accessing cal file tm6_detmap_100602v03.fits
+ srctool/ero_cifsl: Accessing cal file tm1_instpar_190701v15.fits
+ srctool/ero_cifsl: Accessing cal file tm2_instpar_190701v15.fits
+ srctool/ero_cifsl: Accessing cal file tm3_instpar_190701v15.fits
+ srctool/ero_cifsl: Accessing cal file tm4_instpar_190701v15.fits
+ srctool/ero_cifsl: Accessing cal file tm6_instpar_190701v15.fits
+ srctool/ero_cifsl: Accessing cal file tm1_arf_filter_000101v02.fits
+ srctool/ero_cifsl: Accessing cal file tm2_arf_filter_000101v02.fits
+ srctool/ero_cifsl: Accessing cal file tm3_arf_filter_000101v02.fits
+ srctool/ero_cifsl: Accessing cal file tm4_arf_filter_000101v02.fits
+ srctool/ero_cifsl: Accessing cal file tm6_arf_filter_000101v02.fits
+ srctool/ero_cifsl: Accessing cal file tm1_rmf_141103v02.fits
+ srctool/ero_cifsl: Accessing cal file tm2_rmf_141103v02.fits
+ srctool/ero_cifsl: Accessing cal file tm3_rmf_141103v02.fits
+ srctool/ero_cifsl: Accessing cal file tm4_rmf_141103v02.fits
+ srctool/ero_cifsl: Accessing cal file tm6_rmf_141103v02.fits
+ srctool/ero_cifsl: Accessing cal file tm1_rmf_141103v01.fits
+ srctool/ero_cifsl: Accessing cal file tm2_rmf_141103v01.fits
+ srctool/ero_cifsl: Accessing cal file tm3_rmf_141103v01.fits
+ srctool/ero_cifsl: Accessing cal file tm4_rmf_141103v01.fits
+ srctool/ero_cifsl: Accessing cal file tm6_rmf_141103v01.fits
+ srctool/ero_cifsl: Accessing cal file tm1_avignet2_010101v01.fits
+ srctool/ero_cifsl: Accessing cal file tm2_avignet2_010101v01.fits
+ srctool/ero_cifsl: Accessing cal file tm3_avignet2_010101v01.fits
+ srctool/ero_cifsl: Accessing cal file tm4_avignet2_010101v01.fits
+ srctool/ero_cifsl: Accessing cal file tm6_avignet2_010101v01.fits
+ srctool/srctool: Preparing for the handling of extended sources
+ srctool/srctool: #PROCESSING_TIME_INFO:Setup completed: Total setup time was          0.84100s
+ srctool/srctool: ------------------------------------------------------------------------------
+ srctool/srctool: 
+ srctool/srctool: ------------------------------------------------------------------------------
+ srctool/srctool: Source products will be extracted for 1 source
+ srctool/srctool: Working on source 1/1
+ srctool/srctool: ------------------------------------------------------------------------------
+ srctool/srctool: #PROCESSING_TIME_INFO:Task completed: Total processing time was     34.92900s
+ srctool/srctool: ------------------------------------------------------------------------------
+ srctool: DONE
