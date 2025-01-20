@@ -186,8 +186,12 @@ def sigma_clipping(data, popt):
     data_std = popt[2]
     data_mean = popt[1]
     sigma_threshold = data_std * 3
-    lower_limit  = data_mean - sigma_threshold 
-    upper_limit = data_mean + sigma_threshold
+    if sigma_threshold > 0:
+        lower_limit  = data_mean - sigma_threshold 
+        upper_limit = data_mean + sigma_threshold
+    else:
+        lower_limit = data_mean + sigma_threshold
+        upper_limit = data_mean - sigma_threshold
     clipped_data = data[(data >= lower_limit) & (data <= upper_limit)]
     return clipped_data, lower_limit, upper_limit
 
@@ -321,7 +325,7 @@ if proof_check:
         print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
 
     for tile in tqdm(range(len(pc_lightcurve_list))):   
-        threshold_lightcurve(pc_lightcurve_list[tile], image=True, output_dir=f'{output_dir}/Lightcurves/Proof_check/')
+        threshold_lightcurve(pc_lightcurve_list[tile], output_dir=f'{output_dir}/Lightcurves/Proof_check/')
     print(f'Plots for proof checking saved in {output_dir}/Lightcurves/Proof_check/')
 
 ############ Merging tiles and separating into TMs ############
