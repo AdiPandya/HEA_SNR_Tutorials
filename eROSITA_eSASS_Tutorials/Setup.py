@@ -142,12 +142,18 @@ def par_evtool_s01(tile):
 with ProcessPoolExecutor() as executor:
     list(tqdm(executor.map(par_evtool_s01, range(len(elist))), total=len(elist)))
 
+print(f'\nLog file saved as {output_dir}/evtool_s01.log')
+
 with open(log_file_s01, 'r') as log_file:
     log_content = log_file.readlines()
     evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
-    print(f'evtool finished successfully for {evtool_count} out of {len(elist)} files ({evtool_count/len(elist)*100}%)')
-
-print(f'Log file saved as {output_dir}/evtool_s01.log')
+    
+    if evtool_count == 0:
+        raise RuntimeError('Error: evtool did not finish successfully for any file.')
+    if evtool_count == len(elist):
+        print(f'evtool finished successfully for {evtool_count} out of {len(elist)} files ({evtool_count/len(elist)*100}%)')
+    else:
+        raise RuntimeError(f'Error: evtool did not finish successfully for all files. {evtool_count} out of {len(elist)} files were processed.')
 
 ############ Extract Lightcurves ############
 print("\n========================================\n")
@@ -164,12 +170,18 @@ def par_flaregti_s02(tile):
 with ProcessPoolExecutor() as executor:
     list(tqdm(executor.map(par_flaregti_s02, range(len(elist))), total=len(elist)))
 
+print(f'Log file saved as {output_dir}/Lightcurves/flaregti_s02.log')
+
 with open(log_file_s02, 'r') as log_file:
     log_content = log_file.readlines()
     flaregti_count = sum(1 for line in log_content if 'flaregti: DONE' in line)
-    print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
 
-print(f'Log file saved as {output_dir}/Lightcurves/flaregti_s02.log')
+    if flaregti_count == 0:
+        raise RuntimeError('Error: flaregti did not finish successfully for any file.')
+    if flaregti_count == len(elist):
+        print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
+    else:
+        raise RuntimeError(f'Error: flaregti did not finish successfully for all files. {flaregti_count} out of {len(elist)} files were processed.')
 
 ############ Flare Filtering functions ############
 
@@ -270,12 +282,17 @@ def par_flaregti_s03(tile):
 with ProcessPoolExecutor() as executor:
     list(tqdm(executor.map(par_flaregti_s03, range(len(elist))), total=len(elist)))
 
+print(f'Log file saved as {output_dir}/Lightcurves/flaregti_s03.log')
+
 with open(log_file_s03, 'r') as log_file:
     log_content = log_file.readlines()
     flaregti_count = sum(1 for line in log_content if 'flaregti: DONE' in line)
-    print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
-
-print(f'Log file saved as {output_dir}/Lightcurves/flaregti_s03.log')
+    if flaregti_count == 0:
+        raise RuntimeError('Error: flaregti did not finish successfully for any file.')
+    if flaregti_count == len(elist):
+        print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
+    else:
+        raise RuntimeError(f'Error: flaregti did not finish successfully for all files. {flaregti_count} out of {len(elist)} files were processed.')
 
 print("\n========================================\n")
 print('4) Running evtool for all tiles with the flare filtered lightcurves:')
@@ -290,13 +307,20 @@ def par_evtool_s04(tile):
 
 with ProcessPoolExecutor() as executor:
     list(tqdm(executor.map(par_evtool_s04, range(len(elist))), total=len(elist)))
+    
+print(f'Log file saved as {output_dir}/evtool_s04.log')
 
 with open(log_file_s04, 'r') as log_file:
     log_content = log_file.readlines()
     evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
     print(f'evtool finished successfully for {evtool_count} out of {len(clean_list)} files ({evtool_count/len(clean_list)*100}%)')
-
-print(f'Log file saved as {output_dir}/evtool_s04.log')
+    
+    if evtool_count == 0:
+        raise RuntimeError('Error: evtool did not finish successfully for any file.')
+    if evtool_count == len(elist):
+        print(f'evtool finished successfully for {evtool_count} out of {len(elist)} files ({evtool_count/len(elist)*100}%)')
+    else:
+        raise RuntimeError(f'Error: evtool did not finish successfully for all files. {evtool_count} out of {len(elist)} files were processed.')
 
 if proof_check:
     print('\n4.1) Proof checking flare filtering:')
@@ -322,7 +346,12 @@ if proof_check:
     with open(log_file_s041, 'r') as log_file:
         log_content = log_file.readlines()
         flaregti_count = sum(1 for line in log_content if 'flaregti: DONE' in line)
-        print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
+        if flaregti_count == 0:
+            raise RuntimeError('Error: flaregti did not finish successfully for any file.')
+        if flaregti_count == len(elist):
+            print(f'flaregti finished successfully for {flaregti_count} out of {len(elist)} files ({flaregti_count/len(elist)*100}%)')
+        else:
+            raise RuntimeError(f'Error: flaregti did not finish successfully for all files. {flaregti_count} out of {len(elist)} files were processed.')
 
     for tile in tqdm(range(len(pc_lightcurve_list))):   
         threshold_lightcurve(pc_lightcurve_list[tile], output_dir=f'{output_dir}/Lightcurves/Proof_check/')
@@ -340,8 +369,12 @@ with open(f'{output_dir}/Merged/merged_evtool_s05.log', 'w+') as log_file:
     log_content = log_file.readlines()
     evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
     radec2xy_count = sum(1 for line in log_content if 'radec2xy: DONE' in line)
+    
     if evtool_count == 1 and radec2xy_count == 1:
         print('Merged tiles eventlist successfully')
+    else:
+        raise RuntimeError('Error: Merged tiles eventlist failed')
+    
 print(f'Log file saved as {output_dir}/Merged/merged_evtool_s05.log')
 
 
@@ -360,7 +393,10 @@ if separate_tm:
         log_file.seek(0)
         log_content = log_file.readlines()
         evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
-        print(f'evtool successfully separated file into {evtool_count} files for {len(TM_list) + 2} TMs ({evtool_count / (len(TM_list) + 2) * 100}%)')
+        if evtool_count == len(TM_list) + 2:
+            print(f'evtool successfully separated file into {evtool_count} files for {len(TM_list) + 2} TMs ({evtool_count / (len(TM_list) + 2) * 100}%)')
+        else:
+            raise RuntimeError(f'Error: evtool did not finish successfully for all files. {evtool_count} out of {len(TM_list) + 2} files were processed')
 
     print(f'Log file saved as {output_dir}/Merged/separate_TM_evtool_s05.log')
 
