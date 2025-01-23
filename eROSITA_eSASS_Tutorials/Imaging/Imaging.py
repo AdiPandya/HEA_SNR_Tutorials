@@ -11,7 +11,7 @@ start_time = time.time()
 warnings.filterwarnings("ignore")
 
 # Function to run the evtool command
-def run_evtool(input_name, output_name, emin, emax, gti_type='FLAREGTI', flag_type='0xe00fff30', pattern='15', telid='1 2 3 4 5 6 7', log_file=None):
+def run_evtool(input_name, output_name, emin, emax, gti_type='FLAREGTI', flag_type='0xe00fff30', size='auto', pattern='15', telid='1 2 3 4 5 6 7', log_file=None):
     subprocess.run(['evtool', 
                     f'eventfiles={input_name}', 
                     f'outfile={output_name}', 
@@ -22,7 +22,8 @@ def run_evtool(input_name, output_name, emin, emax, gti_type='FLAREGTI', flag_ty
                     f'emax={emax}',
                     f'image=yes',
                     f'events=no',
-                    f'telid={telid}'
+                    f'telid={telid}',
+                    f'size={size}'
                     ],
                     stdout=log_file,
                     stderr=log_file)
