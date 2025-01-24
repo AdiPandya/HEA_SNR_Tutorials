@@ -21,7 +21,7 @@ def run_evtool(input_name, output_name, emin, emax, gti_type='FLAREGTI', flag_ty
                     f'emin={emin}', 
                     f'emax={emax}',
                     f'image=yes',
-                    f'events=no',
+                    f'events=yes',
                     f'telid={telid}',
                     f'size={size}'
                     ],
