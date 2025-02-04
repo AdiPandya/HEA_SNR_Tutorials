@@ -155,10 +155,10 @@ if __name__ == "__main__":
     
     end_time = time.time()
     time_taken = end_time - start_time
-    if time_taken > 600:
-        print(f"** Task completed in {time_taken/60:.2f} minutes **")
-    if time_taken > 3600:
-        print(f"** Task completed in {time_taken/3600:.2f} hours **")
-    else:
+    if time_taken < 600:
         print(f"** Task completed in {time_taken:.2f} seconds **")
+    if time_taken >= 600:
+        print(f"** Task completed in {time_taken/60:.2f} minutes **")
+    if time_taken >= 3600:
+        print(f"** Task completed in {time_taken/3600:.2f} hours **")
     print("========================================\n")
