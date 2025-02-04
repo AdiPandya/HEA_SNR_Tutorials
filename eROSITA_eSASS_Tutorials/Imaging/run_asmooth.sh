@@ -1,11 +1,11 @@
 #!/bin/bash
 source /science/InitScripts/iaat-xmmsas.sh
-input_image=../Data/Images/merged_image_200_2300_masked.fits
-cheesemask=../Data/Source_cat/cheesemask_PS_1arcmin.fits
-masked_image=../Data/Images/merged_image_200_2300_masked_smoothed.fits
-input_expmap=../Data/Images/merged_expmap_200_2300_masked_masked.fits
-masked_expmap=../Data/Images/merged_expmap_200_2300_masked_masked.fits
-output_smooth_image=../Data/Images/merged_image_200_2300_masked_smoothed.fits
+input_image=../Data/Images/merged_image_200_2300.fits
+cheesemask=../Data/Source_cat/cheesemask_PS_1.0arcmin.fits
+masked_image=../Data/Images/merged_image_200_2300_masked.fits
+input_expmap=../Data/Images/merged_expmap_200_2300.fits
+masked_expmap=../Data/Images/merged_expmap_200_2300_masked.fits
+output_smooth_image=../Data/Images/merged_image_200_2300_masked.fits
 desiredsnr=30
 
 farith $input_image $cheesemask $masked_image MUL clobber=yes
