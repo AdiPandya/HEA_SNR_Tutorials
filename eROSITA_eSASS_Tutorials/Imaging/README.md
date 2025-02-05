@@ -93,12 +93,9 @@ The `source_detection.py` script performs source detection on the generated imag
     - `<output_dir>/Point_Sources_<PS_size>arcmin.reg`: Region file containing the point sources with the `PS_size` as the extent size.
     - `<output_dir>/process.log`: Log file containing the output of each step.
 
-#### The Source Detection Notebook
-The [022_Source_detection.ipynb](022_Source_detection.ipynb) notebook provides a tutorial on using the [Source Detection](source_detection.py) script to perform source detection on the generated images.
-
 ## 2.3. [Masking and Smoothing](masking_smooting.py)
 
-The [masking_smooting.py](masking_smooting.py) script handles smoothing of images and optionally masks out point sources based on a ds9 region file. By default, the script uses the cheese-mask file created during source detection.
+The `masking_smooting.py` script handles smoothing of images and optionally masks out point sources based on a ds9 region file. By default, the script uses the cheese-mask file created during source detection.
 #### Using the Masking and Smoothing Script
 
 - **Run the Masking and Smoothing Script**:
@@ -135,6 +132,9 @@ The [masking_smooting.py](masking_smooting.py) script handles smoothing of image
 - `<input_image>_asmooth.fits`: Smoothed image file.
 - `<cheesemask_file>_new.fits`: New cheese-mask file if `--new_cheesemask` is set.
 - `<cheesemask_file_dir>/process.log`: Log file containing the output of asmooth task. The logs are appended in the same file as the previous step of source detection.
+
+#### The Point source removal Notebook
+The [022_PTS_removal.ipynb](022_PTS_removal.ipynb) notebook provides a tutorial on using the [Source Detection](source_detection.py) and [Masking and Smoothing](masking_smooting.py) script to perform source detection and smoothing on the generated images.
 
 
 
