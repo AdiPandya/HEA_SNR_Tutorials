@@ -42,6 +42,17 @@ desired_snr = args.desired_snr
 
 log_file_path = os.path.join(os.path.dirname(input_cheesemask), "process.log")
 
+# Read the log file and delete everything after "catprep: DONE"
+if os.path.exists(log_file_path):
+    with open(log_file_path, "r") as log_file:
+        lines = log_file.readlines()
+    
+    with open(log_file_path, "w") as log_file:
+        for line in lines:
+            log_file.write(line)
+            if "catprep: DONE" in line:
+                break
+
 print('\nEnvironment setup complete\n')
 print('Starting the workflow with the following parameters:')
 print(f'    Input image: {input_image}')
@@ -123,6 +134,7 @@ print('Running asmooth and filling the holes...\n')
 print('Multiplying the image and exposure map with the cheese-mask...\n')
 output_masked_image = input_image.replace(".fits", "_masked.fits")
 output_masked_expmap = input_expmap.replace(".fits", "_masked.fits")
+output_asmooth_image = input_image.replace(".fits", "_asmooth.fits")
 
 if new_cheesemask:
     cheesemask_file = input_cheesemask.replace(".fits", "_new.fits")
@@ -130,25 +142,25 @@ else:
     cheesemask_file = input_cheesemask
 
 sh_file_content = f"""#!/bin/bash
-source /science/InitScripts/iaat-xmmsas.sh
+source /science/InitScripts/iaat-xmmsas.sh # Source the xmmsas environment here
 input_image={input_image}
 cheesemask={input_cheesemask}
 masked_image={output_masked_image}
 input_expmap={input_expmap}
 masked_expmap={output_masked_expmap}
-output_smooth_image={output_masked_image}
+output_smooth_image={output_asmooth_image}
 desiredsnr={desired_snr}
 
 farith $input_image $cheesemask $masked_image MUL clobber=yes
 farith $input_expmap $cheesemask $masked_expmap MUL clobber=yes
 
-asmooth inset=$masked_image 
-    outset=$output_smooth_image
-    weightset=$masked_expmap 
-    withweightset=yes
-    withexpimageset=yes
-    expimageset=$masked_expmap
-    desiredsnr=$desiredsnr
+asmooth inset=$masked_image \
+    outset=$output_smooth_image \
+    weightset=$masked_expmap \
+    withweightset=yes \
+    withexpimageset=yes \
+    expimageset=$masked_expmap \
+    desiredsnr=$desiredsnr \
 """
 
 with open('run_asmooth.sh', 'w') as file:
@@ -163,6 +175,7 @@ with open(log_file_path, "a") as log_file:
 print('\nMasked image and exposure map saved as:')
 print(f'{output_masked_image} and {output_masked_expmap}')
 print('\nasmooth completed successfully!')
+print(f'Smoothed image saved as {output_asmooth_image}')
 
 end_time = time.time()
 time_taken = end_time - start_time
