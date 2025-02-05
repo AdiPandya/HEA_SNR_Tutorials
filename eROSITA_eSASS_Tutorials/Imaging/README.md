@@ -133,7 +133,7 @@ The `masking_smooting.py` script handles smoothing of images and optionally mask
 - `<cheesemask_file>_new.fits`: New cheese-mask file if `--new_cheesemask` is set.
 - `<cheesemask_file_dir>/process.log`: Log file containing the output of asmooth task. The logs are appended in the same file as the previous step of source detection.
 
-#### The Point source removal Notebook
+## The Point source removal Notebook
 The [022_PTS_removal.ipynb](022_PTS_removal.ipynb) notebook provides a tutorial on using the [Source Detection](source_detection.py) and [Masking and Smoothing](masking_smooting.py) script to perform source detection and smoothing on the generated images.
 
 
