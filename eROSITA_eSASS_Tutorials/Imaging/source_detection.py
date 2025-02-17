@@ -12,6 +12,7 @@ import warnings
 import time
 from concurrent.futures import ProcessPoolExecutor
 import sys
+import cv2
 start_time = time.time()
 warnings.filterwarnings("ignore")
 
@@ -314,12 +315,15 @@ dec_src = cat_src.DEC
 # Fix the masking radius to 1arcmin. Needs to be modified for more accurate analysis.
 ext_src = np.zeros(len(ra_src)) + (PS_size / 60)
 
-def circle(X, Y):
-    x, y = np.meshgrid(X, Y)
-    rho = np.sqrt(x * x + y * y)
-    return rho
+x = np.arange(xsize)
+y = np.arange(ysize)
 
-# def process_source(j):
+# def circle(X, Y):
+#     x, y = np.meshgrid(X, Y)
+#     rho = np.sqrt(x * x + y * y)
+#     return rho
+
+# for j in tqdm(range(len(ra_src))):
 #     pixim = ima_wcs.all_world2pix([[float(ra_src[j]), float(dec_src[j])]], 0)
 #     xp = pixim[0][0]
 #     yp = pixim[0][1]
@@ -328,20 +332,12 @@ def circle(X, Y):
 #     if len(ii[0]) > 0:
 #         mask[ii] = 0
 
-x = np.arange(xsize)
-y = np.arange(ysize)
-
-# with ProcessPoolExecutor() as executor:
-#     list(tqdm(executor.map(process_source, range(len(ra_src))), total=len(ra_src)))
-
 for j in tqdm(range(len(ra_src))):
     pixim = ima_wcs.all_world2pix([[float(ra_src[j]), float(dec_src[j])]], 0)
-    xp = pixim[0][0]
-    yp = pixim[0][1]
-    rho = circle(x - xp, y - yp) * pix2deg
-    ii = np.where(rho <= ext_src[j])
-    if len(ii[0]) > 0:
-        mask[ii] = 0
+    xp = int(pixim[0][0])
+    yp = int(pixim[0][1])
+    radius = int(ext_src[j] / pix2deg)
+    cv2.circle(mask, (xp, yp), radius, 0, thickness=-1)
 
 hdu = fits.PrimaryHDU(mask)
 hdu.header.update(ima_wcs.to_header())
