@@ -22,8 +22,9 @@ This directory contains tutorials that guide you through using the eROSITA Scien
 
 - Setting up the data
 - **[Data reduction by filtering out flares](eROSITA_eSASS_Tutorials/01_Introduction_and_Setup.ipynb)**
-- **[Creating images](eROSITA_eSASS_Tutorials/Imaging/02_Imaging_tutorial.ipynb)**
-- **[Extracting spectra](eROSITA_eSASS_Tutorials/Spectra/)**
+- **[Creating images](eROSITA_eSASS_Tutorials/Imaging/021_Imaging_tutorial.ipynb)**
+- **[Remove point sources and Asmooth](eROSITA_eSASS_Tutorials/Imaging/022_PTS_removal.ipynb)**
+- **[Extracting spectra](eROSITA_eSASS_Tutorials/Spectra/)** (In progress)
 
 It also includes Python scripts for these tasks, which can be used to automate the analysis process. The tutorials provide step-by-step instructions on each step of the script, allowing for understanding and modification according to your needs. For more details, refer to the **[README](eROSITA_eSASS_Tutorials/README.md)** file in this directory.
 
