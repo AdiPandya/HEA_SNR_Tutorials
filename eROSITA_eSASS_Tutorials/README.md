@@ -1,5 +1,8 @@
 # Tutorials for eROSITA data reduction using the eSASS software.
 
+Here is a brief overview of the eROSITA data reduction steps using the eSASS software. 
+![Data Reduction Flowchart](Flowcharts/Overall_process.png)
+
 The tutorials are structured as follows:
 
 ## 1. [Introduction and Setup](01_Introduction_and_Setup.ipynb)
