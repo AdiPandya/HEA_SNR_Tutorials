@@ -70,13 +70,13 @@ This command will process the data in the specified input directory, save the re
 The folder contains scripts and notebooks for creating and processing images. For detailed descriptions of the scripts and notebooks, refer to the [Imaging README](Imaging/README.md).
 
 ### 2.1. Creating the Images
-The [Imaging.py](Imaging/Imaging.py) script and the [02_Imaging_tutorial.ipynb](Imaging/021_Imaging_tutorial.ipynb) notebook process eROSITA data to generate images, exposure maps, and exposure-corrected images. 
+The [Imaging.py](Imaging/Imaging.py) script and the [021_Imaging_tutorial.ipynb](Imaging/021_Imaging_tutorial.ipynb) notebook process eROSITA data to generate images, exposure maps, and exposure-corrected images. 
 
 
 ### 2.2. Detecting and masking Sources
-The [source_detection.py](eROSITA_eSASS_Tutorials/Imaging/source_detection.py) script and the [03_Source_detection.ipynb](eROSITA_eSASS_Tutorials/Imaging/022_Source_detection.ipynb) notebook perform source detection on the generated images, create background maps, and mask out point sources for further analysis.
+The [source_detection.py](Imaging/source_detection.py) script and the [022_PTS_removal.ipynb](Imaging/022_PTS_removal.ipynb) notebook perform source detection on the generated images, create background maps, and mask out point sources for further analysis.
 
 ### 2.3. Smoothing the Images
-The [masking_smooting.py](eROSITA_eSASS_Tutorials/Imaging/masking_smooting.py) script handles the smoothing of images. the [03_Source_detection.ipynb](eROSITA_eSASS_Tutorials/Imaging/022_Source_detection.ipynb) notebook contains the tutorial for the same. The script offers optional task of masking of point sources based on a ds9 region file.
+The [masking_smooting.py](Imaging/masking_smooting.py) script handles the smoothing of images. the [022_PTS_removal.ipynb](Imaging/022_PTS_removal.ipynb) notebook contains the tutorial for the same. The script offers optional task of masking of point sources based on a ds9 region file.
 
 ## 3. [Spectral Analysis](Spectra)
