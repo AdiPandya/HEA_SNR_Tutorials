@@ -77,6 +77,6 @@ The [Imaging.py](Imaging/Imaging.py) script and the [021_Imaging_tutorial.ipynb]
 The [source_detection.py](Imaging/source_detection.py) script and the [022_PTS_removal.ipynb](Imaging/022_PTS_removal.ipynb) notebook perform source detection on the generated images, create background maps, and mask out point sources for further analysis.
 
 ### 2.3. Smoothing the Images
-The [masking_smooting.py](Imaging/masking_smooting.py) script handles the smoothing of images. the [022_PTS_removal.ipynb](Imaging/022_PTS_removal.ipynb) notebook contains the tutorial for the same. The script offers optional task of masking of point sources based on a ds9 region file.
+The [masking_smooting.py](Imaging/masking_smooting.py) script handles the smoothing of images. The [022_PTS_removal.ipynb](Imaging/022_PTS_removal.ipynb) notebook contains the tutorial for the same. The script offers optional task of masking of point sources based on a ds9 region file.
 
 ## 3. [Spectral Analysis](Spectra)
