@@ -1,5 +1,5 @@
 # HEA_SNR_Tutorials
-*by Aditya Pandya*
+**- By Aditya Pandya**
 
 Tutorials for High Energy Astrophysics study of Supernova Remnants (SNRs) using XSPEC and eROSITA data analysis. It can also be used for general X-ray spectral analysis and eROSITA data analysis.
 
@@ -28,7 +28,15 @@ This directory contains tutorials that guide you through using the eROSITA Scien
 
 It also includes Python scripts for these tasks, which can be used to automate the analysis process. The tutorials provide step-by-step instructions on each step of the script, allowing for understanding and modification according to your needs. For more details, refer to the **[README](eROSITA_eSASS_Tutorials/README.md)** file in this directory.
 
-##### Note: More tutorials will be added in the future to cover more aspects of X-ray spectral analysis and eROSITA data analysis. You can send your suggestions at aditya.pandya@astro.uni-tuebingen.de
+##### Note: More tutorials will be added in the future to cover more aspects of X-ray spectral analysis and eROSITA data analysis.
+
+### 3. [Refill Point Sources (hidePS)](Refill_PointSources/)
+Tools to hide/remove point sources in FITS images by replacing source pixels with random values from surrounding annuli (DS9 regions).
+
+- Script: **[hidePS.py](Refill_PointSources/hidePS.py)**
+- Tutorial: **[hidePS_visualization.ipynb](Refill_PointSources/hidePS_visualization.ipynb)** — step-by-step visualization and example workflow
+- Details: see **[README](Refill_PointSources/README_python.md)**
+
 ---
 
 ####  References
