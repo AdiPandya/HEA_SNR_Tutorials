@@ -1,0 +1,8 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1
+image
+circle(100, 100, 7)
+circle(200, 150, 7)
+circle(350, 300, 7)
+circle(450, 400, 7)
+circle(300, 450, 7)

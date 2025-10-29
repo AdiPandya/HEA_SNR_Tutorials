@@ -1,0 +1,5 @@
+# Required Python packages for hidePS.py
+astropy>=5.0
+numpy>=1.20
+matplotlib>=3.5  # Optional, for plotting regions
+tqdm>=4.62  # Optional, for progress bars
