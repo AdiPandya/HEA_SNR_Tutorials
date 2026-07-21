@@ -4,7 +4,7 @@ import subprocess
 import numpy as np
 from astropy.io import fits
 from scipy.optimize import curve_fit
-from concurrent.futures import ProcessPoolExecutor
+import multiprocess as mp
 import matplotlib.pyplot as plt
 import os
 from tqdm import tqdm
@@ -84,13 +84,17 @@ logger.info(f'  {output_dir}/Merged')
 
 clean_list = np.empty(len(elist), dtype=object)
 lightcurve0_list = np.empty(len(elist), dtype=object)
+gti0_list = np.empty(len(elist), dtype=object)
 lightcurve_list = np.empty(len(elist), dtype=object)
+gti_list = np.empty(len(elist), dtype=object)
 filtered_list = np.empty(len(elist), dtype=object)
 
 for i in range(len(elist)):
     clean_list[i] = f'{output_dir}/' + elist[i].split('/')[-1].replace('EventList_c010.fits.gz', 'c010_s01_CleanedEvents.fits')
     lightcurve0_list[i] = f'{output_dir}/Lightcurves/' + elist[i].split('/')[-1].replace('EventList_c010.fits.gz', f'c010_s02_LC0_tb{timebin}.fits')
+    gti0_list[i] = f'{output_dir}/Lightcurves/'+elist[i].split('/')[-1].replace('EventList_c010.fits.gz',f'c010_s02_gti0.fits')
     lightcurve_list[i] = f'{output_dir}/Lightcurves/' + elist[i].split('/')[-1].replace('EventList_c010.fits.gz', f'c010_s03_LC_tb{timebin}.fits')
+    gti_list[i] = f'{output_dir}/Lightcurves/'+elist[i].split('/')[-1].replace('EventList_c010.fits.gz',f'c010_s03_gti.fits')
     filtered_list[i] = f'{output_dir}/' + elist[i].split('/')[-1].replace('EventList_c010.fits.gz', 'c010_s04_FlareFilteredEvents.fits')
 
 with open(f'{output_dir}/filtered.list', 'w') as f:
@@ -161,8 +165,12 @@ def par_evtool_s01(tile):
     with open(log_file_s01, 'a') as log_file:
         run_evtool(elist[tile], clean_list[tile], log_file=log_file)
 
-with ProcessPoolExecutor() as executor:
+with mp.Pool() as executor:
     list(tqdm(executor.map(par_evtool_s01, range(len(elist))), total=len(elist)))
+
+# with open(log_file_s01, 'a') as log_file:
+#     for i in range(len(elist)):
+#         run_evtool(elist[i], clean_list[i], log_file=log_file)
 
 logger.info(f'\nLog file saved as {output_dir}/evtool_s01.log')
 
@@ -191,8 +199,11 @@ def par_flaregti_s02(tile):
     with open(log_file_s02, 'a') as log_file:
         run_flaregti(clean_list[tile], lightcurve0_list[tile], log_file=log_file)
 
-with ProcessPoolExecutor() as executor:
+with mp.Pool() as executor:
     list(tqdm(executor.map(par_flaregti_s02, range(len(elist))), total=len(elist)))
+# with open(log_file_s02, 'a') as log_file:
+#     for i in range(len(elist)):
+#         run_flaregti(clean_list[i], lightcurve0_list[i], gti0_list[i], log_file=log_file)
 
 logger.info(f'Log file saved as {output_dir}/Lightcurves/flaregti_s02.log')
 
@@ -287,10 +298,13 @@ def threshold_lightcurve(input_data, ff_plots=ff_plots, output_dir=f'{output_dir
 logger.info('\n2.1) Calculating Thresholds for flare filtering:')
 tile_thresholds = np.zeros(len(lightcurve0_list))
 
-with ProcessPoolExecutor() as executor:
-    results = list(tqdm(executor.map(threshold_lightcurve, lightcurve0_list), total=len(lightcurve0_list)))
+# with mp.Pool() as executor:
+#     results = list(tqdm(executor.map(threshold_lightcurve, lightcurve0_list), total=len(lightcurve0_list)))
 
-tile_thresholds[:] = results
+# tile_thresholds[:] = results
+
+for i in range(len(tile_thresholds)):
+    tile_thresholds[i] = threshold_lightcurve(lightcurve0_list[i])
 
 logger.info(f'Flare filtering plot saved in {output_dir}/Lightcurves/')
 
@@ -305,7 +319,7 @@ def par_flaregti_s03(tile):
     with open(log_file_s03, 'a') as log_file:
         run_flaregti(clean_list[tile], lightcurve_list[tile], threshold = tile_thresholds[tile],log_file=log_file)
 
-with ProcessPoolExecutor() as executor:
+with mp.Pool() as executor:
     list(tqdm(executor.map(par_flaregti_s03, range(len(elist))), total=len(elist)))
 
 logger.info(f'Log file saved as {output_dir}/Lightcurves/flaregti_s03.log')
@@ -333,7 +347,7 @@ def par_evtool_s04(tile):
     with open(log_file_s04, 'a') as log_file:
         run_evtool(clean_list[tile], filtered_list[tile], gti_type="FLAREGTI", log_file=log_file)
 
-with ProcessPoolExecutor() as executor:
+with mp.Pool() as executor:
     list(tqdm(executor.map(par_evtool_s04, range(len(elist))), total=len(elist)))
     
 logger.info(f'Log file saved as {output_dir}/evtool_s04.log')
@@ -341,8 +355,7 @@ logger.info(f'Log file saved as {output_dir}/evtool_s04.log')
 with open(log_file_s04, 'r') as log_file:
     log_content = log_file.readlines()
     evtool_count = sum(1 for line in log_content if 'evtool: DONE' in line)
-    logger.info(f'evtool finished successfully for {evtool_count} out of {len(clean_list)} files ({evtool_count/len(clean_list)*100}%)')
-    
+   
     if evtool_count == 0:
         logger.info('Error: evtool did not finish successfully for any file.')
         exit()
@@ -360,7 +373,7 @@ if proof_check:
 
     for i in range(len(filtered_list)):
         pc_lightcurve_list[i] = f'{output_dir}/Lightcurves/Proof_check/' + filtered_list[i].split('/')[-1].replace('s04_FlareFilteredEvents.fits', f's041_pcLC_tb{timebin}.fits')
-
+        
     log_file_s041 = f'{output_dir}/Lightcurves/Proof_check/flaregti_s041.log'
     with open(log_file_s041, 'w+') as log_file:
         pass
@@ -369,7 +382,7 @@ if proof_check:
         with open(log_file_s041, 'a') as log_file:
             run_flaregti(filtered_list[tile], pc_lightcurve_list[tile], log_file=log_file)
 
-    with ProcessPoolExecutor() as executor:
+    with mp.Pool() as executor:
         list(tqdm(executor.map(par_flaregti_s041, range(len(elist))), total=len(elist)))
 
     with open(log_file_s041, 'r') as log_file:
@@ -392,7 +405,7 @@ logger.info("\n========================================\n")
 logger.info('5) Merging tiles event list:')
 
 with open(f'{output_dir}/Merged/merged_evtool_s05.log', 'w+') as log_file:    
-    run_evtool(f'@{output_dir}/filtered.list', f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', gti_type="FLAREGTI", log_file=log_file)
+    run_evtool(f'@{output_dir}/filtered.list', f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', log_file=log_file)
     run_radec2xy(f'{output_dir}/Merged/Merged_020_s05_TM0_Events.fits', center_ra, center_dec, log_file=log_file)
 
     log_file.seek(0)
@@ -436,7 +449,7 @@ time_taken = end_time - start_time
 logger.info("\n========================================\n")
 if time_taken < 600:
     logger.info(f'** All tasks completed successfully in {time_taken:.2f} seconds **')
-if time_taken >= 600:
+if 600 <= time_taken < 3600:
     logger.info(f'** All tasks completed successfully in {(time_taken/60):.2f} minutes **')
 if time_taken >= 3600:
     logger.info(f'** All tasks completed successfully in {(time_taken/3600):.2f} hours **')

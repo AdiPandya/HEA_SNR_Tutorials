@@ -4,7 +4,6 @@ from astropy.io import fits
 import os
 from tqdm import tqdm
 import argparse
-from concurrent.futures import ProcessPoolExecutor
 import warnings
 import time
 import logging
@@ -78,21 +77,21 @@ logger.info(f'    Open images in DS9: {open_ds9}')
 logger.info(f'    Log file: {log_filename}')
 
 ########## Functions ##########
-
-# Function to run the evtool command
-def run_evtool(input_name, output_name, emin, emax, gti_type='FLAREGTI', flag_type='0xe00fff30', size='auto', pattern='15', telid='1 2 3 4 5 6 7', log_file=None):
+def run_evtool(input_name, output_name, emin, emax, gti_type='FLAREGTI', flag_type='0xe00fff30', size='auto', pattern='15', telid='1 2 3 4 5 6 7', rebin='240', log_file=None):
     subprocess.run(['evtool', 
                     f'eventfiles={input_name}', 
                     f'outfile={output_name}', 
                     f'gti={gti_type}', 
-                    f'flag={flag_type}', 
+                    # f'flag={flag_type}', 
                     f'pattern={pattern}', 
                     f'emin={emin}', 
                     f'emax={emax}',
                     f'image=yes',
                     f'events=yes',
+                    f'rebin={rebin}',
                     f'telid={telid}',
-                    f'size={size}'
+                    f'size={size}',
+                    'region=fk5;box(258.3,-39.68,4.33,4.33,0)'
                     ],
                     stdout=log_file,
                     stderr=log_file)
@@ -139,8 +138,8 @@ if create_rgb:
             run_expmap(event_file, output_image, output_expmap, band[0]/1000, band[1]/1000, log_file=log_file)
             exp_corr(output_image, output_expmap, output_exp_corr)
 
-    with ProcessPoolExecutor() as executor:
-        executor.map(process_band, bands)
+    for band in tqdm(bands, desc="Processing bands"):
+        process_band(band)
 
     with open(log_filename, 'r') as log_file:
         log_content = log_file.readlines()
@@ -186,11 +185,11 @@ end_time = time.time()
 time_taken = end_time - start_time
 if time_taken < 600:
     logger.info(f"** Task completed in {time_taken:.2f} seconds **")
-if time_taken >= 600:
+if 600 <= time_taken < 3600:
     logger.info(f"** Task completed in {time_taken/60:.2f} minutes **")
 if time_taken >= 3600:
     logger.info(f"** Task completed in {time_taken/3600:.2f} hours **")
-logger.info("========================================\n")
+logger.info("\n========================================\n")
 
 # Open the images in DS9
 if open_ds9:

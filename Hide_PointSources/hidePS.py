@@ -13,8 +13,10 @@ from astropy.io import fits
 from astropy.wcs import WCS
 import argparse
 import logging
+import warnings
 import re
 from tqdm import tqdm
+warnings.filterwarnings("ignore")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

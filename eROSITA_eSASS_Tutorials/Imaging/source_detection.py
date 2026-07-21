@@ -10,14 +10,14 @@ import argparse
 import logging
 import warnings
 import time
+import cv2
 from concurrent.futures import ProcessPoolExecutor
 import sys
-import cv2
 start_time = time.time()
 warnings.filterwarnings("ignore")
 
 # Parse input arguments
-parser = argparse.ArgumentParser(description="Run eSASS tasks for source detection and to create a cheese-mask for point sources.")
+parser = argparse.ArgumentParser(description="Run source detection and asmooth pipeline.")
 parser.add_argument("input_image", type=str, help="Path to the input image file.")
 parser.add_argument("input_expmap", type=str, help="Path to the input exposure map file.")
 parser.add_argument("output_dir", type=str, help="Directory to save the output files.")
@@ -33,6 +33,10 @@ output_dir = args.output_dir
 PS_size = args.PS_size
 pts_catalog = args.pts_catalog
 open_ds9 = args.ds9
+
+# Ensure the output directory exists
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 
 # Set up logging
 log_filename = os.path.join(output_dir, "source_detection.log")
@@ -101,6 +105,7 @@ def run_erbox(image_file, exposure_map, detmask_file, output_boxlist, bkg_map=No
                         f"emin={emin}",
                         f"emax={emax}",
                         f"bkgima_flag={bg_image_flag}",
+                        "boxsize=4",
                         f"ecf={ecf}",
                         ], stdout=log_file, stderr=log_file)
     else:
@@ -174,96 +179,99 @@ with open(log_filename, "r") as log_file:
         exit()
 
 # Run erbox (local)
-logger.info("\n========================================\n")
-logger.info('2) Running source detection (erbox) in local mode...')
-if os.path.exists(output_boxlist_local):
-    os.remove(output_boxlist_local)
+if not pts_catalog:
+    logger.info("\n========================================\n")
+    logger.info('2) Running source detection (erbox) in local mode...')
+    if os.path.exists(output_boxlist_local):
+        os.remove(output_boxlist_local)
 
-with open(log_filename, "a") as log_file:
-    run_erbox(input_image, input_expmap, output_mask_file, output_boxlist_local, log_file=log_file)
+    with open(log_filename, "a") as log_file:
+        run_erbox(input_image, input_expmap, output_mask_file, output_boxlist_local, log_file=log_file)
 
-with open(log_filename, "r") as log_file:
-    log_content = log_file.readlines()
-    erbox_count = sum(1 for line in log_content if 'erbox: DONE' in line)
-    if erbox_count == 1:
-        logger.info(f'Local mode source detection completed successfully and file saved as {output_boxlist_local}')
-    else:
-        logger.info(f'Error: Local mode source detection failed!')
-        exit()
+    with open(log_filename, "r") as log_file:
+        log_content = log_file.readlines()
+        erbox_count = sum(1 for line in log_content if 'erbox: DONE' in line)
+        if erbox_count == 1:
+            logger.info(f'Local mode source detection completed successfully and file saved as {output_boxlist_local}')
+        else:
+            logger.info(f'Error: Local mode source detection failed!')
+            exit()
 
-# Run erbackmap
-logger.info("\n========================================\n")
-logger.info('3) Creating background map (erbackmap)...')
-with open(log_filename, "a") as log_file:
-    run_erbackmap(input_image, input_expmap, output_mask_file, output_boxlist_local, output_bkgmap, output_cheesemask, log_file=log_file)
+    # Run erbackmap
+    logger.info("\n========================================\n")
+    logger.info('3) Creating background map (erbackmap)...')
+    with open(log_filename, "a") as log_file:
+        run_erbackmap(input_image, input_expmap, output_mask_file, output_boxlist_local, output_bkgmap, output_cheesemask, log_file=log_file)
 
-with open(log_filename, "r") as log_file:
-    log_content = log_file.readlines()
-    erbackmap_count = sum(1 for line in log_content if 'erbackmap: DONE' in line)
-    if erbackmap_count == 1:
-        logger.info(f'Background map created successfully as {output_bkgmap}')
-    else:
-        logger.info(f'Error: Background map creation failed!')
-        exit()
+    with open(log_filename, "r") as log_file:
+        log_content = log_file.readlines()
+        erbackmap_count = sum(1 for line in log_content if 'erbackmap: DONE' in line)
+        if erbackmap_count == 1:
+            logger.info(f'Background map created successfully as {output_bkgmap}')
+        else:
+            logger.info(f'Error: Background map creation failed!')
+            exit()
 
-# Run erbox (map)
-logger.info("\n========================================\n")
-logger.info('4) Running source detection (erbox) in map mode...')
-if os.path.exists(output_boxlist_map):
-    os.remove(output_boxlist_map)
+    # Run erbox (map)
+    logger.info("\n========================================\n")
+    logger.info('4) Running source detection (erbox) in map mode...')
+    if os.path.exists(output_boxlist_map):
+        os.remove(output_boxlist_map)
 
-with open(log_filename, "a") as log_file:
-    run_erbox(input_image, input_expmap, output_mask_file, output_boxlist_map, output_bkgmap, log_file=log_file)
+    with open(log_filename, "a") as log_file:
+        run_erbox(input_image, input_expmap, output_mask_file, output_boxlist_map, output_bkgmap, log_file=log_file)
 
-with open(log_filename, "r") as log_file:
-    log_content = log_file.readlines()
-    erbox_count = sum(1 for line in log_content if 'erbox: DONE' in line)
-    if erbox_count == 2:
-        logger.info(f'Map mode source detection completed successfully and file saved as {output_boxlist_map}')
-    else:
-        logger.info(f'Error: Map mode source detection failed!')
-        exit()
+    with open(log_filename, "r") as log_file:
+        log_content = log_file.readlines()
+        erbox_count = sum(1 for line in log_content if 'erbox: DONE' in line)
+        if erbox_count == 2:
+            logger.info(f'Map mode source detection completed successfully and file saved as {output_boxlist_map}')
+        else:
+            logger.info(f'Error: Map mode source detection failed!')
+            exit()
 
-# Run ermldet
-logger.info("\n========================================\n")
-logger.info('5) Identifying sources (ermldet)...')
-if os.path.exists(output_mllist):
-    os.remove(output_mllist)
+    # Run ermldet
+    logger.info("\n========================================\n")
+    logger.info('5) Identifying sources (ermldet)...')
+    if os.path.exists(output_mllist):
+        os.remove(output_mllist)
 
-if os.path.exists(output_sourceimage):
-    os.remove(output_sourceimage)
+    if os.path.exists(output_sourceimage):
+        os.remove(output_sourceimage)
 
-with open(log_filename, "a") as log_file:
-    run_ermldet(input_image, input_expmap, output_mask_file, output_boxlist_map, output_bkgmap, output_mllist, output_sourceimage, log_file=log_file)
+    with open(log_filename, "a") as log_file:
+        run_ermldet(input_image, input_expmap, output_mask_file, output_boxlist_map, output_bkgmap, output_mllist, output_sourceimage, log_file=log_file)
 
-with open(log_filename, "r") as log_file:
-    log_content = log_file.readlines()
-    ermldet_count = sum(1 for line in log_content if 'ermldet: DONE' in line)
-    if ermldet_count == 1:
-        logger.info(f'Source identification completed successfully and file saved as {output_mllist}')
-    else:
-        logger.info(f'Error: Source identification failed!')
-        exit()
+    with open(log_filename, "r") as log_file:
+        log_content = log_file.readlines()
+        ermldet_count = sum(1 for line in log_content if 'ermldet: DONE' in line)
+        if ermldet_count == 1:
+            logger.info(f'Source identification completed successfully and file saved as {output_mllist}')
+        else:
+            logger.info(f'Error: Source identification failed!')
+            exit()
 
-# Run catprep
-logger.info("\n========================================\n")
-logger.info('6) Saving the final catalog...')
-if os.path.exists(output_catalog):
-    os.remove(output_catalog)
+    # Run catprep
+    logger.info("\n========================================\n")
+    logger.info('6) Saving the final catalog...')
+    if os.path.exists(output_catalog):
+        os.remove(output_catalog)
 
-with open(log_filename, "a") as log_file:
-    run_catprep(output_mllist, output_catalog, log_file=log_file)
+    with open(log_filename, "a") as log_file:
+        run_catprep(output_mllist, output_catalog, log_file=log_file)
 
-with open(log_filename, "r") as log_file:
-    log_content = log_file.readlines()
-    catprep_count = sum(1 for line in log_content if 'catprep: DONE' in line)
-    if catprep_count == 1:
-        logger.info(f'Final catalog saved successfully as {output_catalog}')
-    else:
-        logger.info('Error: Saving the final catalog failed!')
-        exit()
+    with open(log_filename, "r") as log_file:
+        log_content = log_file.readlines()
+        catprep_count = sum(1 for line in log_content if 'catprep: DONE' in line)
+        if catprep_count == 1:
+            logger.info(f'Final catalog saved successfully as {output_catalog}')
+        else:
+            logger.info('Error: Saving the final catalog failed!')
+            exit()
 
-logger.info("\n*All eSASS tasks successfully completed.*")
+    logger.info("\n*All eSASS tasks successfully completed.*")
+    
+    pts_cat = output_catalog
 
 ########## Selecting point sources and creating cheese-mask ##########
 logger.info("\n========================================\n")
@@ -271,8 +279,6 @@ logger.info('7) Selecting point sources and creating cheese-mask...')
 
 if pts_catalog:
     pts_cat = pts_catalog
-else:
-    pts_cat = output_catalog
 
 logger.info(f'\nUsing the catalog "{pts_cat}" to select point sources\n')
 
@@ -294,7 +300,21 @@ ima_r = np.max((xsize, ysize)) / 2 * pix2deg  # deg
 ima_coord = SkyCoord(ima_racen * u.deg, ima_deccen * u.deg, frame='icrs')
 
 cat_src = fits.open(pts_cat)[1].data
-cat_src = cat_src[(cat_src.EXT == 0) & (cat_src.DET_LIKE_0 > 12)]  # Select high S/N point sources with DET_LIKE>8
+# Select sources:
+# - if EXT_LIKE == 0 (point-like) require DETLIKE > 10
+# - if EXT > 0 (extended) require DETLIKE > 20
+
+det = cat_src['DET_LIKE_0']
+ext_like = cat_src['EXT_LIKE']
+ext = cat_src['EXT']
+
+mask_point = (ext_like == 0) & (det > 10)
+# mask_extended = (ext > 0) & (det > 20)
+# cat_src = cat_src[mask_point | mask_extended]
+cat_src = cat_src[mask_point]
+# cat_src = cat_src[(cat_src.DET_LIKE_0 > 6)]
+
+
 coord_src = SkyCoord(cat_src.RA * u.deg, cat_src.DEC * u.deg, frame='icrs')
 
 # Convert RA and DEC of sources to pixel coordinates
@@ -313,7 +333,15 @@ ra_src = cat_src.RA
 dec_src = cat_src.DEC
 
 # Fix the masking radius to 1arcmin. Needs to be modified for more accurate analysis.
-ext_src = np.zeros(len(ra_src)) + (PS_size / 60)
+ext_src = np.zeros(len(ra_src)) 
+for i in range(len(ra_src)):
+    if cat_src.EXT[i] == 0:
+        ext_src[i] = (PS_size / 60)  # Convert arcmin to degrees
+    else:
+        ext_src[i] = (cat_src.EXT[i] / 3600)  # Convert arcsec to degrees
+        
+# ext_src = np.zeros(len(ra_src)) + (PS_size / 60)  # Convert arcmin to degrees
+
 
 x = np.arange(xsize)
 y = np.arange(ysize)
@@ -353,13 +381,23 @@ with open(output_region_file, 'w') as f:
 logger.info(f'\nCheese-mask saved as {cheesemask_file}')
 logger.info(f'Point sources region file saved as {output_region_file}')
 
+# mask input image with the cheese-mask
+with open(input_image, 'rb') as f:
+    with fits.open(f) as hdul:
+        image_data = hdul[0].data
+        image_header = hdul[0].header
+    masked_image_data = image_data * mask
+masked_image_file = os.path.join(output_dir, f'masked_image_{PS_size}arcmin.fits')
+hdu = fits.PrimaryHDU(masked_image_data, header=image_header)
+hdu.writeto(masked_image_file, overwrite=True)
+
 end_time = time.time()
 time_taken = end_time - start_time
 
 logger.info("\n========================================\n")
 if time_taken < 600:
     logger.info(f'** All tasks completed successfully in {time_taken:.2f} seconds **')
-if time_taken >= 600:
+if 600 <= time_taken < 3600:
     logger.info(f'** All tasks completed successfully in {(time_taken/60):.2f} minutes **')
 if time_taken >= 3600:
     logger.info(f'** All tasks completed successfully in {(time_taken/3600):.2f} hours **')
