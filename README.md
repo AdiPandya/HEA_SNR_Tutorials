@@ -20,15 +20,12 @@ Additionally, it contains a tutorial on **[PyXspec](XSPEC_Tutorials/PyXSPEC.ipyn
 ### 2. [eROSITA data analysis using eSASS](eROSITA_eSASS_Tutorials/)
 This directory contains tutorials that guide you through using the eROSITA Science Analysis Software System (eSASS) for analyzing eROSITA data. It includes:
 
-- Setting up the data
 - **[Data reduction by filtering out flares](eROSITA_eSASS_Tutorials/01_Introduction_and_Setup.ipynb)**
 - **[Creating images](eROSITA_eSASS_Tutorials/Imaging/021_Imaging_tutorial.ipynb)**
 - **[Remove point sources and Asmooth](eROSITA_eSASS_Tutorials/Imaging/022_PTS_removal.ipynb)**
-- **[Extracting spectra](eROSITA_eSASS_Tutorials/Spectra/)** (In progress)
+- **[Extracting spectra](eROSITA_eSASS_Tutorials/Spectra/03_Extract_Spectra.ipynb)** 
 
 It also includes Python scripts for these tasks, which can be used to automate the analysis process. The tutorials provide step-by-step instructions on each step of the script, allowing for understanding and modification according to your needs. For more details, refer to the **[README](eROSITA_eSASS_Tutorials/README.md)** file in this directory.
-
-##### Note: More tutorials will be added in the future to cover more aspects of X-ray spectral analysis and eROSITA data analysis.
 
 ### 3. [Refill Point Sources (hidePS)](Refill_PointSources/)
 Tools to hide/remove point sources in FITS images by replacing source pixels with random values from surrounding annuli (DS9 regions).
